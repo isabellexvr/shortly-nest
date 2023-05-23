@@ -13,7 +13,6 @@ export class AuthService {
 
     constructor(
         private jwt: JwtService,
-        private prisma: PrismaService,
         private usersRepository: UsersRepository
     ) { }
 
@@ -32,12 +31,13 @@ export class AuthService {
     checkToken(token: string) {
         try {
             const data = this.jwt.verifyAsync(token, {
-                audience: this.AUDIENCE, issuer: this.AUDIENCE
+                audience: this.AUDIENCE, issuer: this.ISSUER
             });
             return data;
         } catch (error) {
             console.log(error);
             throw new UnauthorizedException(error)
+            
         }
     }
 
@@ -52,4 +52,6 @@ export class AuthService {
 
         return this.createAToken(user);
     }
+
+
 }
