@@ -25,4 +25,12 @@ export class UrlsService {
 
         return url.originalUrl;
     }
+
+    async findByUrlId(urlId: number) {
+        const url = await this.urlsRepository.findUrlById(urlId);
+
+        if (!url) throw new NotFoundException("Não foi encontrada nenhuma url correspondente a esse id.");
+
+        return url;
+    }
 }

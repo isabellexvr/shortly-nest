@@ -37,6 +37,13 @@ export class UrlsRepository {
     }
 
     findUrlById(id: number) {
-        return this.prisma.url.findFirst({ where: { id } })
+        return this.prisma.url.findFirst({
+            where: { id },
+            select: {
+                id: true,
+                shortenedUrl: true,
+                originalUrl: true
+            }
+        })
     }
 }

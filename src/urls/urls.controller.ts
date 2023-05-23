@@ -20,7 +20,7 @@ export class UrlsController {
     @Post("shorten")
     async shorten(@AuthorizedUser() user: User, @Body() body: ShortenUrlDTO) {
         const url = await this.urlsService.shorten(user.id, body.originalUrl);
-        return {shortUrl: url};
+        return { shortUrl: url };
 
     }
 
@@ -29,6 +29,12 @@ export class UrlsController {
         const originalUrl = await this.urlsService.redirect(shortenedUrl);
 
         res.redirect(`${originalUrl}`);
+    }
+
+    @Get(":id")
+    async findByUrlId(@Param("id", ParseIntPipe) id: number) {
+        return await this.urlsService.findByUrlId(id);
+
     }
 
 }
