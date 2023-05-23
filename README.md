@@ -1,73 +1,60 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Shortly: API de Encurtamento de Links
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<h2>Sobre:</h2>
+<div text-align="center" align="left">
+<p>Esse repositório trata-se do código de uma API, cuja finalidade é servir, através de consultas feitas por um ORM num um banco de dados SQL, rotas que encaminhem para criar usuários da aplicação, encurtar novas URLs de um usuário logado, redirecionar para a URL correta através da URL encurtada criada, obter todas as URLs que já foram encurtados pelo usuário, obter um ranking de cliques em URLs, e, também, poder deletar URLs encurtadas. </p>
+</div>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<div align="left">
+<h2>Rotas:</h2>
 
-## Description
+<ul align="left">
+  <li align="left"><strong>POST</strong> "/users/signup": Enviando um <i>payload</i> contendo <i>email</i> e <i>password</i>, cria um novo usuário.</li>
+ <li align="left"><strong>POST</strong> "/auth/sign-in": Enviando um <i>payload</i> contendo <i>name</i>, <i>email</i> e <i>passwod</i>, faz o login de um usuário, obtendo-se uma chave temporária.</li>
+ <li align="left"><strong>POST (🔑Rota Autenticada🔑)</strong> "/urls/shorten": Enviando-se uma URL por <i>payload</i>, encurta-se a URL, obtendo-se a url da URL encurtada. </li>
+ <li align="left"><strong>GET</strong> "/urls/:id": Enviando-se o id da URL através dos parâmetros da requisição, obtém-se as informações daquela URL encurtada</li>
+ <li align="left"><strong>GET (🔑Rota Autenticada🔑)</strong> "/urls/open/:shortUrl": Enviando-se a URL encurtada através dos parâmetros da requisição, redireciona da URL encurtada para a URL original.</li>
+ <li align="left"><strong>GET (🔑Rota Autenticada🔑)</strong> "/users/me": Obtém-se todas as URLs encurtadas do usuário e as informações dele </li>
+ <li align="left"><strong>GET</strong> "/ranking": Obtém-se um ranking ordenado em ordem decrescente de visitas para as URLs de todos os usuários cadastrados na aplicação.</li>
+ <li align="left"><strong>DELETE (🔑Rota Autenticada🔑)</strong> "/urls/:id": Enviando-se o id da URL que se quer excluir, exclui a URL encurtada do usuário.</li>
+</ul>
+  
+  <h3>🤔 Como acesso uma rota autenticada?</h3>
+  <p> Possuindo-se a chave temporária, envia-se, através dos <i>headers</i> da requisição, um <i>header</i> de name "Authentication" e key "Bearer + (chave temporária)".</p>
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+</div>
 
-## Installation
+<div align="left">
+<h2>Link para Demo:</h2>
+Clique aqui para acessar => <a href="https://uptight-lingerie-ox.cyclic.app" >Shortly API</a>
+</div>
 
+<div align="left">
+<h2>Como e porquê foi desenvolvido:</h2>
+<p>A API foi desenvolvida para praticar meus aprendizados em NestJS e Prisma ORM, atualizando para um framework mais intuitivo, rápido e seguro, um projeto que eu já tinha desenvolvido em Express.js e queries de SQL puras.   </p>
+<h4>Stack de Tecnologias Utilizadas:</h4>
+  <img alt="nodejs" align="center" src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white"/>
+  <img alt="nestjs" align="center" src="https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white"/>
+  <img alt="prismaorm" align="center" src="https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white"/>
+  <img alt="postgresql" align="center" src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"/>
+</div>
+
+## Como executar no Seu Computador
+1. Instale as dependências:
 ```bash
-$ yarn install
+npm i
 ```
-
-## Running the app
-
+2. Crie um arquivo ".env" conforme o exemplo do arquivo ".env.example"
+3. Popule o banco de dados com os modelos:
 ```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+npx prisma migrate dev
 ```
-
-## Test
-
+5. Execute-o:
 ```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+npm run start:dev
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+6. Ou, opcionalmente, você pode buildá-lo:
+```bash
+npm run build
+```
+7. E, então, acesse-o através de http://localhost:3000
