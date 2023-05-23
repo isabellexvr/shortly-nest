@@ -35,4 +35,8 @@ export class UrlsRepository {
             where: { id }
         })
     }
+
+    findUrlById(id: number) {
+        return this.prisma.url.findFirst({ where: { id } })
+    }
 }

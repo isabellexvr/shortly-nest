@@ -26,14 +26,9 @@ export class UrlsController {
 
     @Get("open/:shortUrl")
     async redirectToUrl(@Param("shortUrl") shortenedUrl: string, @Res() res: Response) {
-        const url = await this.urlsRepository.findUrlFromShortenedUrl(shortenedUrl);
-        if (!url) throw new NotFoundException("A URL correspondente não foi encontrada");
+        const originalUrl = await this.urlsService.redirect(shortenedUrl);
 
-        await this.urlsRepository.addOneMoreView(url.visitsCounter + 1, url.id);
-        
-        res.redirect(`${url.originalUrl}`);
+        res.redirect(`${originalUrl}`);
     }
-
-
 
 }

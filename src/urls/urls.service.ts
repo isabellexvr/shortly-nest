@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { UrlsRepository } from './urls.repository';
 import { User } from '@prisma/client';
 import { nanoid } from 'nanoid';
@@ -14,6 +14,15 @@ export class UrlsService {
 
         const shortenedUrl = nanoid(8);
         const result = await this.urlsRepository.shorten(shortenedUrl, originalUrl, userId);
-        return result.shortenedUrl ;
+        return result.shortenedUrl;
+    }
+
+    async redirect(shortenedUrl: string) {
+        const url = await this.urlsRepository.findUrlFromShortenedUrl(shortenedUrl);
+        if (!url) throw new NotFoundException("A URL correspondente não foi encontrada");
+
+        await this.urlsRepository.addOneMoreView(url.visitsCounter + 1, url.id);
+
+        return url.originalUrl;
     }
 }
