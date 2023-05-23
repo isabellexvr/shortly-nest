@@ -19,18 +19,13 @@ export class UrlsController {
     @UseGuards(AuthGuard)
     @Post("shorten")
     async shorten(@AuthorizedUser() user: User, @Body() body: ShortenUrlDTO) {
-        const urlExists = await this.urlsRepository.findOriginalUrlByUserId(user.id, body.originalUrl);
+        const url = await this.urlsService.shorten(user.id, body.originalUrl);
+        return {shortUrl: url};
 
-        if (urlExists) throw new ConflictException("Essa mesma URL já foi encurtada.")
-
-        const { originalUrl } = body;
-        const shortenedUrl = nanoid(8);
-
-        return await this.urlsRepository.shorten(shortenedUrl, originalUrl, user.id);
     }
 
     @Get("open/:shortUrl")
-    async redirectToUrl(@Param("shortUrl", ParseIntPipe) shortenedUrl: string, @Res() res: Response){
+    async redirectToUrl(@Param("shortUrl", ParseIntPipe) shortenedUrl: string, @Res() res: Response) {
 
         const url = await this.urlsRepository.findUrlFromShortenedUrl(shortenedUrl);
 
