@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { CreateUserDTO } from './dtos/create-user.dto';
 import * as bcrypt from "bcrypt"
@@ -17,5 +17,11 @@ export class UsersService {
     
     return await this.usersRepository.create({ ...userInfo, password: bcrypt.hashSync(userInfo.password, this.ROUNDS) })
   }
+
+  async getUserById(id: number) {
+    const user = await this.usersRepository.findById(id);
+    if (!user) throw new NotFoundException("Usuário não encontrado.")
+    return user;
+}
 
 }

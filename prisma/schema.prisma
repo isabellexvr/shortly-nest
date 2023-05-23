@@ -11,21 +11,23 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String @unique
-  email    String @unique
-  password String
-  urls     Url[]
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  urls      Url[]
 
   @@map("users")
 }
 
 model Url {
-  id            Int    @id @default(autoincrement())
+  id            Int      @id @default(autoincrement())
   originalUrl   String
   shortenedUrl  String
-  visitsCounter Int
+  visitsCounter Int      @default(0)
   userId        Int
+  createdAt     DateTime @default(now())
 
   users User @relation(fields: [userId], references: [id])
 
