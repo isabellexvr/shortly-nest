@@ -1,19 +1,15 @@
-import { Body, ConflictException, Controller, Get, Param, ParseIntPipe, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Res, UseGuards } from '@nestjs/common';
 import { Post } from '@nestjs/common';
 import { UrlsService } from './urls.service';
-import { UrlsRepository } from './urls.repository';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { AuthorizedUser } from 'src/decorators/authorized-user.decorator.ts';
 import { User } from '@prisma/client';
 import { ShortenUrlDTO } from './dtos/shorten-url.dto';
-import { nanoid } from 'nanoid';
-import { NotFoundException } from '@nestjs/common';
 import { Response } from 'express';
 @Controller('urls')
 export class UrlsController {
     constructor(
-        private urlsService: UrlsService,
-        private urlsRepository: UrlsRepository
+        private urlsService: UrlsService
     ) { }
 
     @UseGuards(AuthGuard)
@@ -35,6 +31,13 @@ export class UrlsController {
     async findByUrlId(@Param("id", ParseIntPipe) id: number) {
         return await this.urlsService.findByUrlId(id);
 
+    }
+
+    @UseGuards(AuthGuard)
+    @Delete(":id")
+    async deleteUrl(@AuthorizedUser() user: User, @Param("id", ParseIntPipe) urlId: number) {
+        await this.urlsService.deleteUrl(user.id, urlId);
+        return
     }
 
 }

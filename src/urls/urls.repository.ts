@@ -5,8 +5,6 @@ import { PrismaService } from "src/prisma/prisma.service";
 export class UrlsRepository {
     constructor(private prisma: PrismaService) { }
 
-    //need => userId, shortened url
-
     findOriginalUrlByUserId(userId: number, originalUrl: string) {
         return this.prisma.url.findFirst({
             where: { AND: [{ originalUrl }, { userId }] }
@@ -45,5 +43,20 @@ export class UrlsRepository {
                 originalUrl: true
             }
         })
+    }
+
+    findUrlByIdAndUserId(userId: number, urlId: number) {
+        return this.prisma.url.findFirst({
+            where: {
+                AND: [
+                    { id: urlId },
+                    { userId }
+                ]
+            }
+        })
+    }
+
+    deleteUrl(id: number) {
+        return this.prisma.url.delete({ where: { id } })
     }
 }

@@ -1,11 +1,11 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { UrlsRepository } from './urls.repository';
-import { User } from '@prisma/client';
 import { nanoid } from 'nanoid';
 
 @Injectable()
 export class UrlsService {
     constructor(private urlsRepository: UrlsRepository) { }
+
 
     async shorten(userId: number, originalUrl: string) {
         const urlExists = await this.urlsRepository.findOriginalUrlByUserId(userId, originalUrl);
@@ -32,5 +32,13 @@ export class UrlsService {
         if (!url) throw new NotFoundException("Não foi encontrada nenhuma url correspondente a esse id.");
 
         return url;
+    }
+
+    async deleteUrl(userId: number, urlId: number){
+        const urlBelongsToUser = await this.urlsRepository.findUrlByIdAndUserId(userId, urlId)
+
+        if(!urlBelongsToUser) throw new NotFoundException("A URL não existe ou não pertence a esse usuário.")
+
+        return await this.urlsRepository.deleteUrl(urlId);
     }
 }
