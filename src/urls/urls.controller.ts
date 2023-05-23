@@ -25,13 +25,12 @@ export class UrlsController {
     }
 
     @Get("open/:shortUrl")
-    async redirectToUrl(@Param("shortUrl", ParseIntPipe) shortenedUrl: string, @Res() res: Response) {
-
+    async redirectToUrl(@Param("shortUrl") shortenedUrl: string, @Res() res: Response) {
         const url = await this.urlsRepository.findUrlFromShortenedUrl(shortenedUrl);
+        if (!url) throw new NotFoundException("A URL correspondente não foi encontrada");
 
-        if (url) throw new NotFoundException("A URL correspondente não foi encontrada");
-
-        await this.urlsRepository.addOneMoreView(url.visitsCounter + 1, url.id)
+        await this.urlsRepository.addOneMoreView(url.visitsCounter + 1, url.id);
+        
         res.redirect(`${url.originalUrl}`);
     }
 
