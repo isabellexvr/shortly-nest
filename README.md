@@ -1,4 +1,4 @@
-# Shortly: API de Encurtamento de Links
+<h1><img align="center" width="200px" src="./logo-full.png"/>: API de Encurtamento de Links</h1>
 
 <h2>Sobre:</h2>
 <div text-align="center" align="left">
