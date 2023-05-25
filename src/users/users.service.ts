@@ -14,7 +14,7 @@ export class UsersService {
     const user = await this.usersRepository.findByEmail(userInfo.email);
 
     if (user) throw new ConflictException("Já existe um usuário cadastrado com esse e-mail.")
-    
+
     return await this.usersRepository.create({ ...userInfo, password: bcrypt.hashSync(userInfo.password, this.ROUNDS) })
   }
 
@@ -22,6 +22,11 @@ export class UsersService {
     const user = await this.usersRepository.findById(id);
     if (!user) throw new NotFoundException("Usuário não encontrado.")
     return user;
-}
+  }
+
+  async findUsersUrls(userId: number) {
+    return await this.usersRepository.findUserUrls(userId);
+
+  }
 
 }
