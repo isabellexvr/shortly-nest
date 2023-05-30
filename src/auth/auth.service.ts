@@ -18,7 +18,8 @@ export class AuthService {
 
     createAToken(user: User) {
         const token = this.jwt.signAsync({
-            email: user.email
+            email: user.email,
+            name: user.name
         }, {
             expiresIn: this.EXPIRATION_TIME,
             issuer: this.ISSUER,
